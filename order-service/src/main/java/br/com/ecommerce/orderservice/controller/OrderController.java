@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreaker;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ public class OrderController {
 	private final OrderRepository orderRepository;
 	private final InventoryClient  inventoryClient;
 	private final Resilience4JCircuitBreakerFactory circuitBreakerFactory;
+	private final StreamBridge streamBridge;
 	
 	@PostMapping
 	public String placeOrder(@RequestBody OrderDTO orderDTO) {
@@ -49,8 +51,11 @@ public class OrderController {
 			order.setOrderLineItems(orderDTO.getOrderLineItems());
 			order.setOrderNumber(UUID.randomUUID().toString());
 			
-			orderRepository.save(order);			
-			return "Order Place Successfully" + order.getOrderNumber();
+			orderRepository.save(order);	
+			
+			log.info("Sending Order Details to Notification Service");
+			streamBridge.send("notificationEventSupplier-out-0", order.getId());
+			return "Order Place Successfully" + order.getId();
 		}else {
 			return "Order failes, one of the products in the order is not in stock"; 
 		}		
