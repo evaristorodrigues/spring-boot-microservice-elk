@@ -5,7 +5,10 @@ Springboot | Eureka | Spring Cloud | LogStash | ElastichSearch | Kibana
 * Spring Cloud
 * Spring Cloud Eureka --> Service Discovery
 * Spring Cloud Gateway --> Gateway
-* Spring Cloud Config --> Integration with git properties
+* Spring Cloud Config --> Configuration Service Integration with git properties
+* Spring Cloud Config --> Configuration Service Integration with git properties
+* Spring Cloud BUS amqp --> BUS 
+* Spring Cloud Stream Binder RabbitMQ --> Event Driver - Send and Recive Messages
 * Spring Security
 * Vault --> Manage Secrets and Protect Sensitive Data
 * KeyCloak --> Open Source Identity and Access Management
