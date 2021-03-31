@@ -12,6 +12,6 @@ import br.com.ecommerce.orderservice.model.Order;
  * @author evaristosrodrigues
  *
  */
-public interface OrderRepository extends JpaRepository<Order, String> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
 
 }
